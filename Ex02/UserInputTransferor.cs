@@ -7,21 +7,53 @@ namespace Ex02
 {
     public class UserInputTransferor
     {
-        readonly string player1Name;
-        readonly string player2Name;
+        readonly string r_player1Name;
+        readonly string r_player2Name;
+        readonly int r_boardLength;
+        readonly int r_boardWidth;
+        readonly bool r_isPlayer2Humen;
 
+        public UserInputTransferor(string i_player1Name, string i_player2Name, int i_boardLength, int i_boardWidth, bool i_isPlayer2Humen)
+        {
+            r_player1Name = i_player1Name;
+            r_player2Name = i_player2Name;
+            r_boardLength = i_boardLength;
+            r_boardWidth = i_boardWidth;
+            r_isPlayer2Humen = i_isPlayer2Humen;
+        }
         public string Player1Name
         {
             get
             {
-                return player1Name;
+                return r_player1Name;
             }
         }
         public string Player2Name
         {
             get
             {
-                return player2Name;
+                return r_player2Name;
+            }
+        }
+        public int BoardLength
+        {
+            get
+            {
+                return r_boardLength;
+            }
+        }
+        public int BoardWidth
+        {
+            get
+            {
+                return r_boardWidth;
+            }
+        }
+        public bool IsPlayer2Humen
+        {
+            get
+            {
+                return r_isPlayer2Humen;
             }
         }
 

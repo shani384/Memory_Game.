@@ -8,7 +8,7 @@ namespace Ex02
     internal class Board
     {
         private Card[,] m_matrix;
-        private int numOfCardsOpen;
+        private int m_numOfCardsOpen;
         private struct Card
         {
             char m_content;
@@ -19,7 +19,7 @@ namespace Ex02
                 m_isHidden = true;
             }
         }
-        Board(int i_length, int i_width)
+        public Board(int i_length, int i_width)
         {
             m_matrix = new Card[i_length, i_width];
             //לגנרט זוגות של קלפים על הלוח
@@ -27,7 +27,18 @@ namespace Ex02
         }
         public bool IsAllCardsOpen()
         {
-            return
+            bool res;
+
+            if (m_matrix.Length == m_numOfCardsOpen)
+            {
+                res = true;
+            }
+            else
+            {
+                res = false;
+            }
+
+            return res;
         }
 
     }

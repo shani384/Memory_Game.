@@ -11,7 +11,7 @@ namespace Ex02
         private int m_score;
         private readonly bool r_isHumen;
 
-        Player(string i_name, bool i_isHumen)
+        public Player(string i_name, bool i_isHumen)
         {
             r_name = i_name;
             r_isHumen = i_isHumen;
