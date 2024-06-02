@@ -13,7 +13,7 @@ namespace Ex02
         {
             char m_content;
             bool m_isHidden;
-            Card(char content)
+            public Card(char content)
             {
                 m_content = content;
                 m_isHidden = true;
@@ -50,22 +50,15 @@ namespace Ex02
                 boardSize--;
             }
 
-            int index = 0;
-            for (int i = 0; i < i_length; i++)
+            int ind = 0;
+            for (int i = 0; i < m_matrix.GetLength(0); i++)
             {
-                for (int j = 0; j < i_width; j++)
+                for (int j = 0; j < m_matrix.GetLength(1); j++)
                 {
-                    m_matrix[i, j] = cards[index];
-                    index++;
+                    m_matrix[i, j] = cards[ind];
+                    ind++;
                 }
             }
-        }
-
-    }
-}
-
-
-            
         }
         public bool IsAllCardsOpen()
         {
@@ -82,6 +75,6 @@ namespace Ex02
 
             return res;
         }
-
     }
 }
+
