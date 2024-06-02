@@ -11,12 +11,21 @@ namespace Ex02
         private int m_numOfCardsOpen;
         private struct Card
         {
-            char m_content;
+            char m_contentUp;
+            char m_contentDown;
             bool m_isHidden;
             Card(char content)
             {
-                m_content = content;
+                m_contentUp = ' ';
+                m_contentDown = content;
                 m_isHidden = true;
+            }
+            public bool ContentUp
+            {
+                get
+                {
+                    return m_contentUp;
+                }
             }
         }
 
@@ -40,7 +49,7 @@ namespace Ex02
                 c++;
             }
 
-            while (boardSize > 1) // Shuff cards
+            while (boardSize > 1) // Shuffle cards
             {
                 int range = boardSize - 1;
                 int index = rand.Next(range);
@@ -62,10 +71,7 @@ namespace Ex02
         }
 
     }
-}
-
-
-            
+}            
         }
         public bool IsAllCardsOpen()
         {
