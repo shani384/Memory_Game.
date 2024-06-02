@@ -10,20 +10,9 @@ namespace Ex02
         private Board m_board;
         private Player player1;
         private Player player2;
-        private bool m_isGameOver;
-        public bool IsGameOver
-        {
-            get
-            {
-                return m_board;
-            }
-            set
-            {
-                m_isGameOver = value;
-            }
-        }
+       
 
-        public void MemoryGame(UserInputTransferor i_userInput)
+        public MemoryGame(UserInputDTO i_userInput)
         {
             m_board = new Board(i_userInput.BoardLength, i_userInput.BoardWidth);
             player1 = new Player(i_userInput.Player1Name, true);
@@ -31,16 +20,21 @@ namespace Ex02
             {
                 player2 = new Player(i_userInput.Player2Name, true);
             }
+
             else
             {
                 player2 = new Player(null, false);
             }
-            isGameOver = false;
+
         }
 
-        public bool CheckIfGameOver()
+        public bool IsGameOver()
         {
             return m_board.IsAllCardsOpen();
+        }
+        public BoardDTO getCurrentStatusOfBoard()
+        {
+            return m_board.getBoardDTO();
         }
     }
 }

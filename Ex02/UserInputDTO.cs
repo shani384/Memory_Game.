@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex02
 {
-    public class UserInputTransferor
+    public class UserInputDTO
     {
         readonly string r_player1Name;
         readonly string r_player2Name;
@@ -13,7 +13,7 @@ namespace Ex02
         readonly int r_boardWidth;
         readonly bool r_isPlayer2Humen;
 
-        public UserInputTransferor(string i_player1Name, string i_player2Name, int i_boardLength, int i_boardWidth, bool i_isPlayer2Humen)
+        public UserInputDTO(string i_player1Name, string i_player2Name, int i_boardLength, int i_boardWidth, bool i_isPlayer2Humen)
         {
             r_player1Name = i_player1Name;
             r_player2Name = i_player2Name;

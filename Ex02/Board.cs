@@ -11,21 +11,16 @@ namespace Ex02
         private int m_numOfCardsOpen;
         private struct Card
         {
-            char m_contentUp;
-            char m_contentDown;
+            char m_content;
             bool m_isHidden;
             public Card(char content)
             {
-                m_contentUp = ' ';
-                m_contentDown = content;
+                m_content = content;
                 m_isHidden = true;
             }
-            public bool ContentUp
+            public CardDTO getCardDTO()
             {
-                get
-                {
-                    return m_contentUp;
-                }
+                return new CardDTO(m_content, m_isHidden);
             }
         }
 
@@ -64,14 +59,10 @@ namespace Ex02
             {
                 for (int j = 0; j < m_matrix.GetLength(1); j++)
                 {
-                    m_matrix[i, j] = cards[index];
-                    index++;
+                    m_matrix[i, j] = cards[ind];
+                    ind++;
                 }
             }
-        }
-
-    }
-}            
         }
         public bool IsAllCardsOpen()
         {
@@ -88,6 +79,22 @@ namespace Ex02
 
             return res;
         }
+        public BoardDTO getBoardDTO()
+        {
+            int length = m_matrix.GetLength(0), width = m_matrix.GetLength(1);
+            CardDTO[,] matrixDTO = new CardDTO[length, width];
+
+            for (int i = 0; i < length; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    matrixDTO[i, j] = m_matrix[i,j].getCardDTO();
+                }
+            }
+            return new BoardDTO(matrixDTO);
+        }
     }
-}
+    
+}            
+
 

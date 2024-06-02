@@ -38,10 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="BoardDTO.cs" />
+    <Compile Include="CardDTO.cs" />
     <Compile Include="MemoryGame.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="UserInputTransferor.cs" />
+    <Compile Include="UserInputDTO.cs" />
     <Compile Include="UserInterface.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
