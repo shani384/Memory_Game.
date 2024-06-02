@@ -19,10 +19,52 @@ namespace Ex02
                 m_isHidden = true;
             }
         }
+
         public Board(int i_length, int i_width)
         {
             m_matrix = new Card[i_length, i_width];
-            //לגנרט זוגות של קלפים על הלוח
+            m_numOfCardsOpen = 0;
+            initiateBoard();
+       }
+        private void initiateBoard()
+        {
+            int boardSize = m_matrix.Length;
+            List<Card> cards = new List<Card>();
+            Random rand = new Random();
+
+            char c = 'A';
+            for (int i = 0; i < boardSize / 2; i++)
+            {
+                cards.Add(new Card(c));
+                cards.Add(new Card(c));
+                c++;
+            }
+
+            while (boardSize > 1) // Shuff cards
+            {
+                int range = boardSize - 1;
+                int index = rand.Next(range);
+                Card value = cards[index];
+                cards[index] = cards[range];
+                cards[range] = value;
+                boardSize--;
+            }
+
+            int index = 0;
+            for (int i = 0; i < i_length; i++)
+            {
+                for (int j = 0; j < i_width; j++)
+                {
+                    m_matrix[i, j] = cards[index];
+                    index++;
+                }
+            }
+        }
+
+    }
+}
+
+
             
         }
         public bool IsAllCardsOpen()
