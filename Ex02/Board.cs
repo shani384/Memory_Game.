@@ -116,10 +116,14 @@ namespace Ex02
             {
                 card1.IsHidden = false;
                 card2.IsHidden = false;
-                m_numOfCardsOpen++;
+                m_numOfCardsOpen+=2;
                 return true;
             }
             return false;
+        }
+        public char GetCardValue(int[] i_cardIndexes)
+        {
+            return m_matrix[i_cardIndexes[0], i_cardIndexes[1]].Content;
         }
     }
     

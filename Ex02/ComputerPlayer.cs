@@ -7,29 +7,39 @@ namespace Ex02
 {
     class ComputerPlayer
     {
+
         IDictionary<char, int[]> m_revealedCards;
-        List<int[]> m_readyPairs;
+        List<int[]> m_readyCardsPairs;
 
         public int[] getComputerCardsChoice()
         {
             int[] res;
 
-            if (m_readyPairs.Count > 0)
+
+            if (m_readyCardsPairs.Count > 0)
             {
-                res = m_readyPairs.First();
-                m_readyPairs.RemoveAt(0);
+                res = m_readyCardsPairs.First();
+                m_readyCardsPairs.RemoveAt(0);
             }
             else
             {
-                res = null;
+                res = null;//todo: return random
             }
             return res;
         }
-        public void AddNewCard(int[] indexes, char content)
+        public void RevealNewCard(int[] indexes, char content)
         {
             if (m_revealedCards.ContainsKey(content))
             {
-                m_readyPairs.Add(ConcatCards(indexes, m_revealedCards[content]);//אני פה!!!!!!!
+                if (!IsTheSameCard(m_revealedCards[content], indexes))
+                {
+                    m_readyCardsPairs.Add(ConcatCards(indexes, m_revealedCards[content]));
+                    m_revealedCards.Remove(content);
+                }
+            }
+            else
+            {
+                m_revealedCards.Add(content, indexes);
             }
         }
         private int[] ConcatCards(int[] i_card1, int[] i_card2)
@@ -41,5 +51,10 @@ namespace Ex02
             res[3] = i_card2[1];
             return res;
         }
+        private bool IsTheSameCard(int[] card1, int[] card2)
+        {
+            return card1[0] == card2[0] && card1[1] == card2[1];
+        }
+        
     }
 }
