@@ -25,9 +25,8 @@ namespace Ex02
                 {
                     m_lastBoardState = memoryGame.getCurrentStateOfBoard();
                     TurnInTheGame();
-
                 }
-                //PrintResultsOfTheGame();
+                PrintResultsOfTheGame();
                 userWantsToEnd = IsUserWantsAnotherRound();
             }
             
@@ -206,11 +205,11 @@ namespace Ex02
                 } 
                 showChosenCard(card2Choice);
                 System.Threading.Thread.Sleep(2000);
-                Console.Clear();//todo: change to what guy gave us.
+                ConsoleUtils.Screen.Clear();
                 cardsConcat = ConcatCardsChoice(card1Choice, card2Choice);
             }
             
-            res = memoryGame.runCurrentTurn(ref cardsConcat);
+            memoryGame.runCurrentTurn(ref cardsConcat);
             
             if (!player.IsHumen)
             {
@@ -218,7 +217,7 @@ namespace Ex02
                 showChosenCard(cardsConcat.Skip(2).ToArray());
                 Console.WriteLine("It is computer turn!");
                 System.Threading.Thread.Sleep(4000);
-                Console.Clear();//todo: change to what guy gave us.
+                ConsoleUtils.Screen.Clear();
             }
 
 
@@ -234,7 +233,7 @@ namespace Ex02
         private void showChosenCard(int[] cardIndexes)
         {
             m_lastBoardState.Matrix[cardIndexes[0], cardIndexes[1]].IsHidden = false;
-            Console.Clear();//todo: change to what guy gave us
+            ConsoleUtils.Screen.Clear();
             PrintBoard();
         }
         private int[] ConcatCardsChoice(int[] i_card1, int[] i_card2)
@@ -253,6 +252,19 @@ namespace Ex02
                 return true;
             }
             return false;
+        }
+        private void PrintResultsOfTheGame()
+        {
+            PlayerDTO[] players = memoryGame.GetPlayerDetails();
+            Console.WriteLine(string.Format(@"{0}'s score: {1}", players[0].Name, players[0].Score));
+            if (players[1].IsHumen)
+            {
+                Console.WriteLine(string.Format(@"{0}'s score: {1}", players[1].Name, players[1].Score));
+            }
+            else
+            {
+                Console.WriteLine(string.Format(@"Computer's score: {0}", players[1].Score));
+            }
         }
     }
 }

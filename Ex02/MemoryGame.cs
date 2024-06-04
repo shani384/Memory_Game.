@@ -43,7 +43,7 @@ namespace Ex02
         {
             return m_turnPlayer.createPlayerDTO();
         }
-        public bool runCurrentTurn(ref int[] io_cardsChoice)
+        public void runCurrentTurn(ref int[] io_cardsChoice)
         {
             bool res;
             if (!m_turnPlayer.IsHumen)
@@ -53,6 +53,7 @@ namespace Ex02
             }
 
             res = m_board.check2CardsAndRevealThemIfEqual(io_cardsChoice);
+            RevealComputerPlayerNewCards(io_cardsChoice);
 
             if (res == true)
             {
@@ -62,7 +63,6 @@ namespace Ex02
             {
                 ChangeTurnPlayer();
             }
-            return res;
         }
         private void ChangeTurnPlayer()
         {
@@ -74,6 +74,31 @@ namespace Ex02
             {
                 m_turnPlayer = m_player1;
             }
+        }
+        public PlayerDTO[] GetPlayerDetails()
+        {
+            PlayerDTO[] playersDetails = new PlayerDTO[2];
+            playersDetails[0] = m_player1.createPlayerDTO();
+            playersDetails[1] = m_player2.createPlayerDTO();
+            return playersDetails;
+        }
+        public void RevealComputerPlayerNewCards(int[] cards)
+        {
+            int[] card1Indexes = cards;
+            int[] card2Indexes = cards.Skip(2).ToArray();
+            char contentCard1= m_board.GetCardValue(card1Indexes);
+            char contentCard2= m_board.GetCardValue(card2Indexes);
+
+            if(contentCard1 != contentCard2)
+            {
+                m_computerPlayer.RevealNewCard(card1Indexes, contentCard1);
+                m_computerPlayer.RevealNewCard(card2Indexes, contentCard2);
+            }
+            else
+            {
+                //remove from computer player
+            }
+
         }
     }
 }
