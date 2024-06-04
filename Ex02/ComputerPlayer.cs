@@ -23,7 +23,6 @@ namespace Ex02
             {
                 res = null;
             }
-
             return res;
         }
         public void AddNewCard(int[] indexes, char content)
