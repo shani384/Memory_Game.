@@ -40,8 +40,10 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardDTO.cs" />
     <Compile Include="CardDTO.cs" />
+    <Compile Include="ComputerPlayer.cs" />
     <Compile Include="MemoryGame.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerDTO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="UserInputDTO.cs" />
     <Compile Include="UserInterface.cs" />

@@ -21,11 +21,15 @@ namespace Ex02
                 return m_content;
             }
         }
-        public bool IsHissen
+        public bool IsHidden
         {
             get
             {
                 return m_isHidden;
+            }
+            set
+            {
+                m_isHidden = value;
             }
         }
     }

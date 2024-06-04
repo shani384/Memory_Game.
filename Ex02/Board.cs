@@ -9,7 +9,7 @@ namespace Ex02
     {
         private Card[,] m_matrix;
         private int m_numOfCardsOpen;
-        private struct Card
+        private class Card
         {
             char m_content;
             bool m_isHidden;
@@ -21,6 +21,20 @@ namespace Ex02
             public CardDTO getCardDTO()
             {
                 return new CardDTO(m_content, m_isHidden);
+            }
+            public char Content
+            {
+                get
+                {
+                    return m_content;
+                }
+            }
+            public bool IsHidden
+            {
+                set
+                {
+                    m_isHidden = value;
+                }
             }
         }
 
@@ -92,6 +106,20 @@ namespace Ex02
                 }
             }
             return new BoardDTO(matrixDTO);
+        }
+        public bool check2CardsAndRevealThemIfEqual(int[] i_indexes)
+        {
+            Card card1 = m_matrix[i_indexes[0], i_indexes[1]];
+            Card card2 = m_matrix[i_indexes[2], i_indexes[3]];
+
+            if(card1.Content == card2.Content)
+            {
+                card1.IsHidden = false;
+                card2.IsHidden = false;
+                m_numOfCardsOpen++;
+                return true;
+            }
+            return false;
         }
     }
     
