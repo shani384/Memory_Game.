@@ -7,11 +7,11 @@ namespace Ex02
 {
     public class UserInputDTO
     {
-        readonly string r_player1Name;
-        readonly string r_player2Name;
-        readonly int r_boardLength;
-        readonly int r_boardWidth;
-        readonly bool r_isPlayer2Humen;
+        private readonly string r_player1Name;
+        private readonly string r_player2Name;
+        private readonly int r_boardLength;
+        private readonly int r_boardWidth;
+        private readonly bool r_isPlayer2Humen; 
 
         public UserInputDTO(string i_player1Name, string i_player2Name, int i_boardLength, int i_boardWidth, bool i_isPlayer2Humen)
         {

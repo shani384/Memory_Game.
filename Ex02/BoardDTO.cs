@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex02
 {
-    internal class BoardDTO
+    public class BoardDTO
     {
         private CardDTO[,] m_matrix;
         public BoardDTO(CardDTO[,] i_matrix)

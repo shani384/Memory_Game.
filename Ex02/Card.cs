@@ -5,14 +5,18 @@ using System.Text;
 
 namespace Ex02
 {
-    public class CardDTO
+    internal class Card
     {
         char m_content;
         bool m_isHidden;
-        public CardDTO(char i_content, bool i_isHidden)
+        public Card(char content)
         {
-            m_content = i_content;
-            m_isHidden = i_isHidden;
+            m_content = content;
+            m_isHidden = true;
+        }
+        public CardDTO getCardDTO()
+        {
+            return new CardDTO(m_content, m_isHidden);
         }
         public char Content
         {

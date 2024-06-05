@@ -5,15 +5,13 @@ using System.Text;
 
 namespace Ex02
 {
-    class MemoryGame
+    public class MemoryGame
     {
         private Board m_board;
         private Player m_player1;
         private Player m_player2;
         private Player m_turnPlayer;
         private ComputerPlayer m_computerPlayer;
-       
-
         public MemoryGame(UserInputDTO i_userInput)
         {
             m_board = new Board(i_userInput.BoardLength, i_userInput.BoardWidth);
@@ -31,6 +29,18 @@ namespace Ex02
             m_turnPlayer = m_player1;
         }
 
+        public void initiateGame()
+        {
+            m_board.InitiateBoard();
+            m_player1.InitiatePlayer();
+            m_player2.InitiatePlayer();
+            m_turnPlayer = m_player1;
+            if(!m_player2.IsHumen)
+            {
+                m_computerPlayer = new ComputerPlayer();
+            }
+
+        }
         public bool IsGameOver()
         {
             return m_board.IsAllCardsOpen();
@@ -43,19 +53,29 @@ namespace Ex02
         {
             return m_turnPlayer.createPlayerDTO();
         }
-        public void runCurrentTurn(ref int[] io_cardsChoice)
+
+        //public bool CheckAndSetPlayerWantToQuit(string i_wantToQuit)
+        //{
+        //    if(i_wantToQuit == "Q")
+        //    {
+        //        m_turnPlayer.WantToQuit = "Q";
+        //    }
+        //    return isUserWantToQuit;
+        //}
+        public void runCurrentTurn(int[] io_cardsChoice)
         {
-            bool res;
+            bool ContentsOfCardsAreEqual;
+
             if (!m_turnPlayer.IsHumen)
             {
-                io_cardsChoice = m_computerPlayer.getComputerCardsChoice();
+                io_cardsChoice = m_computerPlayer.getComputerCardsChoice(m_board);
                 //todo: if return null need to random card
             }
 
-            res = m_board.check2CardsAndRevealThemIfEqual(io_cardsChoice);
-            RevealComputerPlayerNewCards(io_cardsChoice);
+            ContentsOfCardsAreEqual = m_board.check2CardsAndRevealThemIfEqual(io_cardsChoice);
+            //RevealComputerPlayerNewCards(io_cardsChoice);
 
-            if (res == true)
+            if (ContentsOfCardsAreEqual)
             {
                 m_turnPlayer.Score = m_turnPlayer.Score + 1;
             }
@@ -99,6 +119,10 @@ namespace Ex02
                 //remove from computer player
             }
 
+        }
+        public static bool IsSizeMemoryBoardValid(int i_lengthBoard, int i_widthBoard)
+        {
+            return Board.IsSizeBoardEven(i_lengthBoard, i_widthBoard);
         }
     }
 }

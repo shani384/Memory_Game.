@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex02
 {
-    class PlayerDTO
+    public class PlayerDTO
     {
         private readonly string r_name;
         private readonly int r_score;
@@ -35,6 +35,13 @@ namespace Ex02
             get
             {
                 return r_isHumen;
+            }
+        }
+        public string WantToQuit
+        {
+            get
+            {
+                return WantToQuit;
             }
         }
     }

@@ -9,43 +9,43 @@ namespace Ex02
     {
         private Card[,] m_matrix;
         private int m_numOfCardsOpen;
-        private class Card
-        {
-            char m_content;
-            bool m_isHidden;
-            public Card(char content)
-            {
-                m_content = content;
-                m_isHidden = true;
-            }
-            public CardDTO getCardDTO()
-            {
-                return new CardDTO(m_content, m_isHidden);
-            }
-            public char Content
-            {
-                get
-                {
-                    return m_content;
-                }
-            }
-            public bool IsHidden
-            {
-                set
-                {
-                    m_isHidden = value;
-                }
-            }
-        }
+        //private class Card
+        //{
+        //    char m_content;
+        //    bool m_isHidden;
+        //    public Card(char content)
+        //    {
+        //        m_content = content;
+        //        m_isHidden = true;
+        //    }
+        //    public CardDTO getCardDTO()
+        //    {
+        //        return new CardDTO(m_content, m_isHidden);
+        //    }
+        //    public char Content
+        //    {
+        //        get
+        //        {
+        //            return m_content;
+        //        }
+        //    }
+        //    public bool IsHidden
+        //    {
+        //        set
+        //        {
+        //            m_isHidden = value;
+        //        }
+        //    }
+        //}
 
         public Board(int i_length, int i_width)
         {
             m_matrix = new Card[i_length, i_width];
             m_numOfCardsOpen = 0;
-            initiateBoard();
        }
-        private void initiateBoard()
+        public void InitiateBoard()
         {
+            m_numOfCardsOpen = 0;
             int boardSize = m_matrix.Length;
             List<Card> cards = new List<Card>();
             Random rand = new Random();
@@ -109,21 +109,44 @@ namespace Ex02
         }
         public bool check2CardsAndRevealThemIfEqual(int[] i_indexes)
         {
+            bool ContentsOfCardsAreEqual;
+
             Card card1 = m_matrix[i_indexes[0], i_indexes[1]];
             Card card2 = m_matrix[i_indexes[2], i_indexes[3]];
-
+           
             if(card1.Content == card2.Content)
             {
                 card1.IsHidden = false;
                 card2.IsHidden = false;
                 m_numOfCardsOpen+=2;
-                return true;
+                ContentsOfCardsAreEqual = true;
             }
-            return false;
+            else
+            {
+                ContentsOfCardsAreEqual = false;
+            }
+            return ContentsOfCardsAreEqual;
         }
         public char GetCardValue(int[] i_cardIndexes)
         {
             return m_matrix[i_cardIndexes[0], i_cardIndexes[1]].Content;
+        }
+        public Card GetCard(int i_row, int i_column)
+        {
+            return m_matrix[i_row, i_column];
+        }
+        public static bool IsSizeBoardEven(int i_lengthBoard, int i_widthBoard)
+        {
+            return (i_lengthBoard * i_widthBoard) % 2 == 0;
+        }
+
+        public int GetNumOfRows()
+        {
+            return m_matrix.GetLength(0);
+        }
+        public int GetNumOfColumns()
+        {
+            return m_matrix.GetLength(1);
         }
     }
     

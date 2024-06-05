@@ -5,27 +5,83 @@ using System.Text;
 
 namespace Ex02
 {
-    class ComputerPlayer
+    internal class ComputerPlayer
     {
+        private List<CardCoordinate> cardCoordinates;
+        private IDictionary<Card, CardCoordinate> m_revealedCards;
+        private List<CardCoordinate[]> m_readyCardsPairs;
 
-        IDictionary<char, int[]> m_revealedCards;
-        List<int[]> m_readyCardsPairs;
-
-        public int[] getComputerCardsChoice()
+        public ComputerPlayer(Board board)
         {
-            int[] res;
+            int numOfRowsBoard = board.GetNumOfRows();
+            int numOfColumnsBoard = board.GetNumOfColumns();
+            m_revealedCards = new Dictionary<Card, CardCoordinate>();
+            m_readyCardsPairs = new List<CardCoordinate[]>();
 
+            cardCoordinates = new List<CardCoordinate>(numOfRowsBoard * numOfColumnsBoard);
+            for (int i = 0; i < numOfRowsBoard; i++)
+            { 
+                for(int j = 0; j< numOfColumnsBoard; j++)
+                {
+                    cardCoordinates.Add(new CardCoordinate(i, j));
+                }
+            }
+        }
+
+        public CardCoordinate[] getComputerCardsChoice(Board board)
+        {
+            Random random = new Random();
+            int guessRow;
+            int guessColumn;
+            Card randCard1 = null, randCard2 = null;
+            CardCoordinate checkIfRevealedCard = new CardCoordinate();
+            CardCoordinate[] cardsChoise = new CardCoordinate[2];
 
             if (m_readyCardsPairs.Count > 0)
             {
-                res = m_readyCardsPairs.First();
+                cardsChoise = m_readyCardsPairs[0];
                 m_readyCardsPairs.RemoveAt(0);
             }
             else
             {
-                res = null;//todo: return random
+                do
+                {
+                    guessRow = random.Next(0, board.GetNumOfRows());
+                    guessColumn = random.Next(0, board.GetNumOfColumns());
+                    randCard1 = board.GetCard(guessRow, guessColumn);
+
+                } while (!randCard1.IsHidden);
+                cardsChoise[0] = new CardCoordinate(guessRow, guessColumn);
+                if(m_revealedCards.TryGetValue(randCard1, out checkIfRevealedCard))
+                {
+                    cardsChoise[1] = checkIfRevealedCard;
+                    m_revealedCards.Remove(randCard1);
+                }
+                else
+                {
+
+                    do
+                    {
+                        guessRow = random.Next(0, board.GetNumOfRows());
+                        guessColumn = random.Next(0, board.GetNumOfColumns());
+                        randCard2 = board.GetCard(guessRow, guessColumn);
+
+                    } while (!randCard2.IsHidden);
+                    cardsChoise[1] = new CardCoordinate(guessRow, guessColumn);
+                }
             }
-            return res;
+            if(randCard1 != null && randCard2 != null)
+            {
+                if(randCard1.Content != randCard2.Content)
+                {
+
+                }
+            }
+            else if()
+                {
+
+            }
+            return cardsChoise;
         }
         public void RevealNewCard(int[] indexes, char content)
         {

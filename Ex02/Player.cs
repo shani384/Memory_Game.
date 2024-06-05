@@ -17,6 +17,10 @@ namespace Ex02
             r_isHumen = i_isHumen;
             m_score = 0;
         }
+        public void InitiatePlayer()
+        {
+            m_score = 0;
+        }
         public string Name
         {
             get

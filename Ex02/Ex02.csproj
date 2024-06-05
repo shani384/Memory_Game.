@@ -34,8 +34,11 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="BoardDTO.cs" />
+    <Compile Include="Card.cs" />
+    <Compile Include="CardCoordinate.cs" />
     <Compile Include="CardDTO.cs" />
     <Compile Include="ComputerPlayer.cs" />
+    <Compile Include="CoordinateInBoard.cs" />
     <Compile Include="MemoryGame.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerDTO.cs" />
@@ -44,9 +47,8 @@
     <Compile Include="UserInterface.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Ex02.ConsoleUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\..\..\Windows\Temp\Ex02.ConsoleUtils.dll</HintPath>
+    <Reference Include="Ex02.ConsoleUtils">
+      <HintPath>..\..\..\..\Windows\Temp\bd_690A.tmp\Ex02.ConsoleUtils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
