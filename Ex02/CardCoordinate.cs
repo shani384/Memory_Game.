@@ -1,41 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Ex02
 {
-    public struct CardCoordinate
+    internal struct CardCoordinate
     {
-        private int m_column;
-        private int m_row;
+        private int? m_Column;
+        private int? m_Row;
 
-        public int Column
+        public int? Column
         {
             get
             {
-                return m_column;
+                return m_Column;
             }
             set
             {
-                m_column = value;
+                m_Column = value;
             }
         }
-        public int Row
+        public int? Row
         {
             get
             {
-                return m_row;
+                return m_Row;
             }
             set
             {
-                m_row = value;
+                m_Row = value;
             }
         }
-        public CardCoordinate(int i_row, int i_column)
+        public CardCoordinate(int i_Row, int i_Column)
         {
-            m_row = i_row;
-            m_column = i_column;
+            m_Row = i_Row;
+            m_Column = i_Column;
         }
     }
 }

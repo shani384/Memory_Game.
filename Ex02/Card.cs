@@ -1,39 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Ex02
 {
     internal class Card
     {
-        char m_content;
-        bool m_isHidden;
-        public Card(char content)
+        char m_Content;
+        bool m_IsHidden;
+        public Card(char i_Content)
         {
-            m_content = content;
-            m_isHidden = true;
+            m_Content = i_Content;
+            m_IsHidden = true;
         }
-        public CardDTO getCardDTO()
+        public CardDTO GetCardDTO()
         {
-            return new CardDTO(m_content, m_isHidden);
+            return new CardDTO(m_Content, m_IsHidden);
         }
         public char Content
         {
             get
             {
-                return m_content;
+                return m_Content;
             }
         }
         public bool IsHidden
         {
             get
             {
-                return m_isHidden;
+                return m_IsHidden;
             }
             set
             {
-                m_isHidden = value;
+                m_IsHidden = value;
             }
         }
     }

@@ -1,128 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace Ex02
 {
     public class MemoryGame
     {
-        private Board m_board;
-        private Player m_player1;
-        private Player m_player2;
-        private Player m_turnPlayer;
-        private ComputerPlayer m_computerPlayer;
-        public MemoryGame(UserInputDTO i_userInput)
+        private Board m_Board;
+        private Player m_Player1;
+        private Player m_Player2;
+        private Player m_TurnPlayer;
+        private ComputerPlayer m_ComputerPlayer;
+        public MemoryGame(UserInputDTO i_UserInput)
         {
-            m_board = new Board(i_userInput.BoardLength, i_userInput.BoardWidth);
-            m_player1 = new Player(i_userInput.Player1Name, true);
-            if (i_userInput.IsPlayer2Humen)
+            m_Board = new Board(i_UserInput.BoardLength, i_UserInput.BoardWidth);
+            m_Player1 = new Player(i_UserInput.Player1Name, true);
+            if (i_UserInput.IsPlayer2Humen)
             {
-                m_player2 = new Player(i_userInput.Player2Name, true);
+                m_Player2 = new Player(i_UserInput.Player2Name, true);
+                m_ComputerPlayer = null;
             }
-
             else
             {
-                m_player2 = new Player(null, false);
-                m_computerPlayer = new ComputerPlayer();
+                m_Player2 = new Player(null, false);
+                m_ComputerPlayer = new ComputerPlayer(m_Board);
             }
-            m_turnPlayer = m_player1;
+
+            m_TurnPlayer = m_Player1;
         }
-
-        public void initiateGame()
+        public void InitiateGame()
         {
-            m_board.InitiateBoard();
-            m_player1.InitiatePlayer();
-            m_player2.InitiatePlayer();
-            m_turnPlayer = m_player1;
-            if(!m_player2.IsHumen)
+            m_Board.InitiateBoard();
+            m_Player1.InitiatePlayer();
+            m_Player2.InitiatePlayer();
+            m_TurnPlayer = m_Player1;
+            if(!m_Player2.IsHumen)
             {
-                m_computerPlayer = new ComputerPlayer();
+                m_ComputerPlayer.InitiateComputerPlayer(m_Board);
             }
-
         }
         public bool IsGameOver()
         {
-            return m_board.IsAllCardsOpen();
+            return m_Board.IsAllCardsOpen();
         }
-        public BoardDTO getCurrentStateOfBoard()
+        public BoardDTO GetCurrentStateOfBoard()
         {
-            return m_board.getBoardDTO();
+            return m_Board.GetBoardDTO();
         }
-        public PlayerDTO getNextTurnPlayer()
+        public PlayerDTO GetNextTurnPlayer()
         {
-            return m_turnPlayer.createPlayerDTO();
+            return m_TurnPlayer.CreatePlayerDTO();
         }
-
-        //public bool CheckAndSetPlayerWantToQuit(string i_wantToQuit)
-        //{
-        //    if(i_wantToQuit == "Q")
-        //    {
-        //        m_turnPlayer.WantToQuit = "Q";
-        //    }
-        //    return isUserWantToQuit;
-        //}
-        public void runCurrentTurn(int[] io_cardsChoice)
+        public void RunCurrentTurn(int[] io_CardsChoice)
         {
             bool ContentsOfCardsAreEqual;
+            CardCoordinate[] computerCardsChoise;
 
-            if (!m_turnPlayer.IsHumen)
+            if (!m_TurnPlayer.IsHumen)
             {
-                io_cardsChoice = m_computerPlayer.getComputerCardsChoice(m_board);
-                //todo: if return null need to random card
+                computerCardsChoise = m_ComputerPlayer.GetComputerCardsChoice(m_Board);
+                io_CardsChoice[0] = computerCardsChoise[0].Row.GetValueOrDefault(-1);
+                io_CardsChoice[1] = computerCardsChoise[0].Column.GetValueOrDefault(-1);
+                io_CardsChoice[2] = computerCardsChoise[1].Row.GetValueOrDefault(-1);
+                io_CardsChoice[3] = computerCardsChoise[1].Column.GetValueOrDefault(-1);
             }
 
-            ContentsOfCardsAreEqual = m_board.check2CardsAndRevealThemIfEqual(io_cardsChoice);
-            //RevealComputerPlayerNewCards(io_cardsChoice);
-
+            ContentsOfCardsAreEqual = m_Board.Check2CardsAndRevealThemIfEqual(io_CardsChoice);
+            if (m_TurnPlayer.IsHumen && m_ComputerPlayer != null)
+            {
+                m_ComputerPlayer.UpdateComputerMemory(io_CardsChoice, m_Board, ContentsOfCardsAreEqual);
+            }
             if (ContentsOfCardsAreEqual)
             {
-                m_turnPlayer.Score = m_turnPlayer.Score + 1;
+                m_TurnPlayer.Score = m_TurnPlayer.Score + 1;
             }
             else
             {
-                ChangeTurnPlayer();
+                changeTurnPlayer();
             }
         }
-        private void ChangeTurnPlayer()
+        private void changeTurnPlayer()
         {
-            if(m_turnPlayer == m_player1)
+            if(m_TurnPlayer == m_Player1)
             {
-                m_turnPlayer = m_player2;
+                m_TurnPlayer = m_Player2;
             }
             else
             {
-                m_turnPlayer = m_player1;
+                m_TurnPlayer = m_Player1;
             }
         }
         public PlayerDTO[] GetPlayerDetails()
         {
             PlayerDTO[] playersDetails = new PlayerDTO[2];
-            playersDetails[0] = m_player1.createPlayerDTO();
-            playersDetails[1] = m_player2.createPlayerDTO();
+            playersDetails[0] = m_Player1.CreatePlayerDTO();
+            playersDetails[1] = m_Player2.CreatePlayerDTO();
+
             return playersDetails;
         }
-        public void RevealComputerPlayerNewCards(int[] cards)
+        public static bool IsSizeMemoryBoardValid(int i_LengthBoard, int i_WidthBoard)
         {
-            int[] card1Indexes = cards;
-            int[] card2Indexes = cards.Skip(2).ToArray();
-            char contentCard1= m_board.GetCardValue(card1Indexes);
-            char contentCard2= m_board.GetCardValue(card2Indexes);
-
-            if(contentCard1 != contentCard2)
-            {
-                m_computerPlayer.RevealNewCard(card1Indexes, contentCard1);
-                m_computerPlayer.RevealNewCard(card2Indexes, contentCard2);
-            }
-            else
-            {
-                //remove from computer player
-            }
-
-        }
-        public static bool IsSizeMemoryBoardValid(int i_lengthBoard, int i_widthBoard)
-        {
-            return Board.IsSizeBoardEven(i_lengthBoard, i_widthBoard);
+            return Board.IsSizeBoardEven(i_LengthBoard, i_WidthBoard);
         }
     }
 }

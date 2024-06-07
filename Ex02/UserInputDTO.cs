@@ -1,59 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 
 namespace Ex02
 {
     public class UserInputDTO
     {
-        private readonly string r_player1Name;
-        private readonly string r_player2Name;
-        private readonly int r_boardLength;
-        private readonly int r_boardWidth;
-        private readonly bool r_isPlayer2Humen; 
+        private readonly string r_Player1Name;
+        private readonly string r_Player2Name;
+        private readonly int r_BoardLength;
+        private readonly int r_BoardWidth;
+        private readonly bool r_IsPlayer2Humen; 
 
-        public UserInputDTO(string i_player1Name, string i_player2Name, int i_boardLength, int i_boardWidth, bool i_isPlayer2Humen)
+        public UserInputDTO(string i_Player1Name, string i_Player2Name, int i_BoardLength, int i_BoardWidth, bool i_IsPlayer2Humen)
         {
-            r_player1Name = i_player1Name;
-            r_player2Name = i_player2Name;
-            r_boardLength = i_boardLength;
-            r_boardWidth = i_boardWidth;
-            r_isPlayer2Humen = i_isPlayer2Humen;
+            r_Player1Name = i_Player1Name;
+            r_Player2Name = i_Player2Name;
+            r_BoardLength = i_BoardLength;
+            r_BoardWidth = i_BoardWidth;
+            r_IsPlayer2Humen = i_IsPlayer2Humen;
         }
         public string Player1Name
         {
             get
             {
-                return r_player1Name;
+                return r_Player1Name;
             }
         }
         public string Player2Name
         {
             get
             {
-                return r_player2Name;
+                return r_Player2Name;
             }
         }
         public int BoardLength
         {
             get
             {
-                return r_boardLength;
+                return r_BoardLength;
             }
         }
         public int BoardWidth
         {
             get
             {
-                return r_boardWidth;
+                return r_BoardWidth;
             }
         }
         public bool IsPlayer2Humen
         {
             get
             {
-                return r_isPlayer2Humen;
+                return r_IsPlayer2Humen;
             }
         }
 

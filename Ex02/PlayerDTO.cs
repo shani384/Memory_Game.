@@ -1,40 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 
 namespace Ex02
 {
     public class PlayerDTO
     {
-        private readonly string r_name;
-        private readonly int r_score;
-        private readonly bool r_isHumen;
-        public PlayerDTO(string i_name, int i_score, bool i_isHumen)
+        private readonly string r_Name;
+        private readonly int r_Score;
+        private readonly bool r_isHuman;
+        public PlayerDTO(string i_Name, int i_Score, bool i_IsHuman)
         {
-            r_name = i_name;
-            r_score = i_score;
-            r_isHumen = i_isHumen;
+            r_Name = i_Name;
+            r_Score = i_Score;
+            r_isHuman = i_IsHuman;
         }
         public string Name
         {
             get
             {
-                return r_name;
+                return r_Name;
             }
         }
         public int Score
         {
             get
             {
-                return r_score;
+                return r_Score;
             }
         }
-        public bool IsHumen
+        public bool IsHuman
         {
             get
             {
-                return r_isHumen;
+                return r_isHuman;
             }
         }
         public string WantToQuit

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 
 namespace Ex02
 {
-    public struct CoordinateInBoard
+    internal struct CoordinateInBoard
     {
         private int m_column;
         private int m_row;
@@ -31,10 +28,10 @@ namespace Ex02
                 m_row = value;
             }
         }
-        public CoordinateInBoard(int i_row ,int i_column)
+        public CoordinateInBoard(int i_Row ,int i_Column)
         {
-            m_row = i_row;
-            m_column = i_column;
+            m_row = i_Row;
+            m_column = i_Column;
         }
     }
 }

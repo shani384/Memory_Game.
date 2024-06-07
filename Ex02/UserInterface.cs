@@ -1,48 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace Ex02
 {
     public class UserInterface
     {
-        private MemoryGame m_memoryGame;
-        private BoardDTO m_lastBoardState; /////////////////////////////////////////////////// null?
-        private bool m_playerWantToQuit = false;
-        public void startGame()
+        private MemoryGame m_MemoryGame;
+        private BoardDTO m_LastBoardState; 
+        private bool m_PlayerWantToQuit = false;
+        public void StartGame()
         {
             bool userWantsToEnd = false;
+
             Console.WriteLine("Welcome to the memory game!");
             UserInputDTO gameSettingsFromUser = getGameSettingsFromUser();
             Console.WriteLine("From now on at anytime you want to quit the game please press 'Q'");
-            m_memoryGame = new MemoryGame(gameSettingsFromUser);
+            m_MemoryGame = new MemoryGame(gameSettingsFromUser);
             while (!userWantsToEnd)
             {
-                NewGame();
-                while (!m_memoryGame.IsGameOver())
+                newGame();
+                while (!m_MemoryGame.IsGameOver())
                 {
-                    m_lastBoardState = m_memoryGame.getCurrentStateOfBoard();
+                    m_LastBoardState = m_MemoryGame.GetCurrentStateOfBoard();
                     TurnInTheGame();
-                    if(m_playerWantToQuit)
+                    if(m_PlayerWantToQuit)
                     {
                         break;
                     }
                 }
-                if(m_playerWantToQuit)
+                if(m_PlayerWantToQuit)
                 {
                     Console.WriteLine("Game stopped");
                     break;
                 }
-                PrintResultsOfTheGame();
-                userWantsToEnd = IsUserWantsAnotherRound();
+                printResultsOfTheGame();
+                userWantsToEnd = isUserWantsAnotherRound();
             }
+            Console.WriteLine("Bye Bye...");
         }
-        private void NewGame()
+        private void newGame()
         {
-            m_memoryGame.initiateGame();
+            m_MemoryGame.InitiateGame();
         }
-        private bool IsUserWantsAnotherRound()
+        private bool isUserWantsAnotherRound()
         {
             bool isValidChoise = false;
             string userChoiceStr;
@@ -67,20 +67,26 @@ namespace Ex02
                 {
                     isValidChoise = true;
                     userWantsToEnd = true;
-                    m_playerWantToQuit = true;
+                    m_PlayerWantToQuit = true;
                 }
                 else
                 {
                     Console.WriteLine("Invalid Choise, Please enter 'Y' if you want another round and 'N' if not.");
                 }
             }
+
             return userWantsToEnd;
         }
-        private void PrintBoard()
+        private void printBoard(string i_PlayerName)
         {
-            int rows = m_lastBoardState.Matrix.GetLength(0);
-            int columns = m_lastBoardState.Matrix.GetLength(1);
+            int rows = m_LastBoardState.Matrix.GetLength(0);
+            int columns = m_LastBoardState.Matrix.GetLength(1);
 
+            if(i_PlayerName != null)
+            {
+                Console.WriteLine(string.Format(@"{0}'s turn!", i_PlayerName));
+                Console.WriteLine("==============================");
+            }
             Console.Write("    ");
             for (int j = 0; j < columns; j++)
             {
@@ -95,19 +101,20 @@ namespace Ex02
                 {
 
 
-                    Console.Write("  " + cardValueOnBoard(m_lastBoardState.Matrix[i, j]) + "  |");
+                    Console.Write("  " + cardValueOnBoard(m_LastBoardState.Matrix[i, j]) + "  |");
                 }
                 Console.WriteLine();
                 Console.WriteLine("   " + new string('=', columns * 6));
             }
         }
-        private char cardValueOnBoard(CardDTO card)
+        private char cardValueOnBoard(CardDTO i_Card)
         {
-            if (card.IsHidden)
+            if (i_Card.IsHidden)
             {
                 return ' ';
             }
-            return card.Content;
+
+            return i_Card.Content;
         }
         private UserInputDTO getGameSettingsFromUser()
         {
@@ -119,21 +126,22 @@ namespace Ex02
             player1Name = Console.ReadLine();
             isPlayer2Humen = humenOrComputerStrSelection(out player2Name);
             Console.WriteLine("Now you need to choose a board size so that the number of squares is even");
-            boardLength = GetBoradLength();
-            boardWidth = GetBoradWidth();
-            while (!IsSizeBoardValid(boardLength, boardWidth))
+            boardLength = getBoradLength();
+            boardWidth = getBoradWidth();
+            while (!isSizeBoardValid(boardLength, boardWidth))
             {
                 Console.WriteLine("The board size is odd, please enter the board size again");
-                boardLength = GetBoradLength();
-                boardWidth = GetBoradWidth();
+                boardLength = getBoradLength();
+                boardWidth = getBoradWidth();
             }
+
             return new UserInputDTO(player1Name, player2Name, boardLength, boardWidth, isPlayer2Humen);
         }
-        private bool IsSizeBoardValid(int i_boardLength, int i_boardWidth)
+        private bool isSizeBoardValid(int i_BoardLength, int i_BoardWidth)
         {
-            return MemoryGame.IsSizeMemoryBoardValid(i_boardLength, i_boardWidth);
+            return MemoryGame.IsSizeMemoryBoardValid(i_BoardLength, i_BoardWidth);
         }
-        private int GetBoradLength()
+        private int getBoradLength()
         {
             int boardLength;
             string boardLengthStr;
@@ -146,9 +154,10 @@ namespace Ex02
                 Console.WriteLine("Invalid Length, Please enter a number between 4 to 6: ");
                 int.TryParse(boardLengthStr = Console.ReadLine(), out boardLength);
             }
+
             return boardLength;
         }
-        private int GetBoradWidth()
+        private int getBoradWidth()
         {
             string boardWidthStr;
             int boardWidth;
@@ -160,14 +169,15 @@ namespace Ex02
                 Console.WriteLine("Invalid Width, Please enter a number between 4 to 6: ");
                 int.TryParse(boardWidthStr = Console.ReadLine(), out boardWidth);
             }
+
             return boardWidth;
         }
-        private bool humenOrComputerStrSelection(out string o_player2Name)
+        private bool humenOrComputerStrSelection(out string o_Player2Name)
         {
             bool isValidInput = false;
             string humenOrComputerStrSelection;
             bool isPlayer2Humen = false;
-            o_player2Name = null;
+            o_Player2Name = null;
 
             Console.WriteLine("Please enter 'Y' if you want to play against another player or enter 'N' if you want to play against the computer");
             humenOrComputerStrSelection = Console.ReadLine();
@@ -178,12 +188,12 @@ namespace Ex02
                     isPlayer2Humen = true;
                     isValidInput = true;
                     Console.WriteLine("Please enter the second player name: ");
-                    o_player2Name = Console.ReadLine();
+                    o_Player2Name = Console.ReadLine();
                 }
                 else if (humenOrComputerStrSelection == "N")
                 {
                     isPlayer2Humen = false;
-                    o_player2Name = null;
+                    o_Player2Name = null;
                     isValidInput = true;
                 }
                 else
@@ -192,20 +202,22 @@ namespace Ex02
                     humenOrComputerStrSelection = Console.ReadLine();
                 }
             }
+
             return isPlayer2Humen;
         }
-        private CoordinateInBoard? GetPlayerCardChoice()
+        private CoordinateInBoard? getPlayerCardChoice()
         {
             string rowStr = null, columnStr = null;
             bool validInput = false;
             CoordinateInBoard? coordinateInBoard = null;
-            Console.WriteLine(string.Format(@"Please enter number of a row (1 - {0}):", m_lastBoardState.Matrix.GetLength(1)));
+
+            Console.WriteLine(string.Format(@"Please enter number of a row (1 - {0}):", m_LastBoardState.Matrix.GetLength(1)));
             while (!validInput)
             {
                 rowStr = Console.ReadLine();
                 if (rowStr != "Q")
                 {
-                    if (rowStr.Length != 1 || char.Parse(rowStr) < '1' || char.Parse(rowStr) > m_lastBoardState.Matrix.GetLength(1) + '0')
+                    if (isRowInputValid(rowStr))
                     {
                         Console.WriteLine("The row number is out of bounds of the board, try again");
                     }
@@ -216,20 +228,20 @@ namespace Ex02
                 }
                 else
                 {
-                    m_playerWantToQuit = true;
+                    m_PlayerWantToQuit = true;
                     validInput = true;
                 }
             }
-            if (!m_playerWantToQuit)
+            if (!m_PlayerWantToQuit)
             {
                 validInput = false;
-                Console.WriteLine(string.Format(@"Please enter number of a column (A - {0}):", (char)('A' + m_lastBoardState.Matrix.GetLength(0) - 1)));
+                Console.WriteLine(string.Format(@"Please enter number of a column (A - {0}):", (char)('A' + m_LastBoardState.Matrix.GetLength(0) - 1)));
                 while (!validInput)
                 {
                     columnStr = Console.ReadLine();
                     if (columnStr != "Q")
                     {
-                        if (columnStr.Length != 1 || char.Parse(columnStr) < 'A' || char.Parse(columnStr) > m_lastBoardState.Matrix.GetLength(1) + 'A' - 1)
+                        if (isColumnInputValid(columnStr))
                         {
                             Console.WriteLine("The column character is outside the board boundaries, try again");
                         }
@@ -241,112 +253,147 @@ namespace Ex02
                     }
                     else
                     {
-                        m_playerWantToQuit = true;
+                        m_PlayerWantToQuit = true;
                         validInput = true;
                     }
                 }
             }
+
             return coordinateInBoard;
+        }
+        private bool isRowInputValid(string i_Row)
+        {
+            return i_Row.Length != 1 || char.Parse(i_Row) < '1' || char.Parse(i_Row) > m_LastBoardState.Matrix.GetLength(1) + '0';
+        }
+        private bool isColumnInputValid(string i_Column)
+        {
+            return i_Column.Length != 1 || char.Parse(i_Column) < 'A' || char.Parse(i_Column) > m_LastBoardState.Matrix.GetLength(1) + 'A' - 1;
         }
         public void TurnInTheGame()
         {
-            PlayerDTO player = m_memoryGame.getNextTurnPlayer();
+            PlayerDTO player = m_MemoryGame.GetNextTurnPlayer();
+
+            printBoard(null);
+            if (player.IsHuman)
+            {
+                humanPlayerTurn(player.Name);
+            }
+            else
+            {
+                notHumanPlayer();
+            }
+        }
+        private void humanPlayerTurn(string i_PlayerName)
+        {
             CoordinateInBoard? card1Choice;
             CoordinateInBoard? card2Choice;
             int[] cardsConcat = null;
 
-            PrintBoard();
-            if (player.IsHumen)
+            Console.WriteLine(string.Format(@"{0} it is your turn!", i_PlayerName));
+            card1Choice = getPlayerCardChoice();
+            if (!m_PlayerWantToQuit)
             {
-                Console.WriteLine(string.Format(@"{0} it is your turn!", player.Name));
-                card1Choice = GetPlayerCardChoice();
-                if (!m_playerWantToQuit)
+                while (!isCardHidden(card1Choice))
                 {
-                    while (!IsCardHidden(card1Choice))
-                    {
-                        Console.WriteLine("This card is not hidden so you cannot choose it. Please select another card.");
-                        card1Choice = GetPlayerCardChoice();
-                    }
-                    if (!m_playerWantToQuit)
-                    {
-                        showChosenCard(card1Choice);
-                        card2Choice = GetPlayerCardChoice();
-                        while (!IsCardHidden(card2Choice))
-                        {
-                            Console.WriteLine("This card is not hidden so you cannot choose it. Please select another card.");
-                            card2Choice = GetPlayerCardChoice();
-                        }
-                        if (!m_playerWantToQuit)
-                        {
-                            showChosenCard(card2Choice);
-                            System.Threading.Thread.Sleep(2000);
-                            ConsoleUtils.Screen.Clear();
-                            cardsConcat = ConcatCardsChoice(card1Choice, card2Choice);
-                        }
-                    }
-                    m_memoryGame.runCurrentTurn(cardsConcat);
+                    Console.WriteLine("This i_Card is not hidden so you cannot choose it. Please select another i_Card.");
+                    card1Choice = getPlayerCardChoice();
                 }
-            }
-            else
-            {
-                //card1Choice = new CoordinateInBoard(cardsConcat[0], cardsConcat[1]);
-                //card2Choice = new CoordinateInBoard(cardsConcat[2], cardsConcat[3]);
-                //showChosenCard(card1Choice);
-                //showChosenCard(card2Choice);
-                Console.WriteLine("It is computer turn!");
-
-                System.Threading.Thread.Sleep(4000);
-                ConsoleUtils.Screen.Clear();
+                if (!m_PlayerWantToQuit)
+                {
+                    showChosenCard(card1Choice, i_PlayerName);
+                    card2Choice = getPlayerCardChoice();
+                    while (!isCardHidden(card2Choice))
+                    {
+                        Console.WriteLine("This i_Card is not hidden so you cannot choose it. Please select another i_Card.");
+                        card2Choice = getPlayerCardChoice();
+                    }
+                    if (!m_PlayerWantToQuit)
+                    {
+                        showChosenCard(card2Choice, i_PlayerName);
+                        System.Threading.Thread.Sleep(2000);
+                        ConsoleUtils.Screen.Clear();
+                        cardsConcat = concatCardsChoice(card1Choice, card2Choice);
+                    }
+                }
+                m_MemoryGame.RunCurrentTurn(cardsConcat);
             }
         }
-        //private int[] convertCardsUserChoiceToMatrixIndex(string[] i_cardsChoice)
-        //{
-        //    int[] res = new int[2];
-        //    res[0] = int.Parse(i_cardsChoice[0]) - 1;
-        //    res[1] = char.Parse(i_cardsChoice[1]) -'A';
-
-        //    return res;
-        //}
-        private void showChosenCard(CoordinateInBoard? cardIndexes)
+        private void notHumanPlayer()
         {
-            if (cardIndexes.HasValue)
+            CoordinateInBoard? card1Choice;
+            CoordinateInBoard? card2Choice;
+            int[] cardsConcat = null;
+
+            Console.WriteLine("It is computer turn!");
+            cardsConcat = new int[4];
+            m_MemoryGame.RunCurrentTurn(cardsConcat);
+            card1Choice = new CoordinateInBoard(cardsConcat[0], cardsConcat[1]);
+            card2Choice = new CoordinateInBoard(cardsConcat[2], cardsConcat[3]);
+            showChosenCard(card1Choice,"Computer");
+            showChosenCard(card2Choice,"Computer");
+            System.Threading.Thread.Sleep(4000);
+            ConsoleUtils.Screen.Clear();
+        }
+        private void showChosenCard(CoordinateInBoard? i_CardIndexes, string i_Name)
+        {
+            if (i_CardIndexes.HasValue)
             {
-                m_lastBoardState.Matrix[cardIndexes.Value.Row, cardIndexes.Value.Column].IsHidden = false;
+                m_LastBoardState.Matrix[i_CardIndexes.Value.Row, i_CardIndexes.Value.Column].IsHidden = false;
                 ConsoleUtils.Screen.Clear();
-                PrintBoard();
+                printBoard(i_Name);
             }
             else
             {
-                Console.WriteLine("Invalid card coordinates.");
+                Console.WriteLine("Invalid i_Card coordinates.");
             }
         }
-        private int[] ConcatCardsChoice(CoordinateInBoard? i_card1, CoordinateInBoard? i_card2)
+        private int[] concatCardsChoice(CoordinateInBoard? i_Card1, CoordinateInBoard? i_Card2)
         {
             int[] dataCards = new int[4];
-            if (i_card1.HasValue && i_card2.HasValue)
+
+            if (i_Card1.HasValue && i_Card2.HasValue)
             {
-                dataCards[0] = i_card1.Value.Row;
-                dataCards[1] = i_card1.Value.Column;
-                dataCards[2] = i_card2.Value.Row;
-                dataCards[3] = i_card2.Value.Column;
+                dataCards[0] = i_Card1.Value.Row;
+                dataCards[1] = i_Card1.Value.Column;
+                dataCards[2] = i_Card2.Value.Row;
+                dataCards[3] = i_Card2.Value.Column;
             }
+
             return dataCards;
         }
-        public bool IsCardHidden(CoordinateInBoard? card)
+        private bool isCardHidden(CoordinateInBoard? i_Card)
         {
             bool isCardHidden = false;
-            if (card.HasValue)
+
+            if (i_Card.HasValue)
             {
-                isCardHidden = m_lastBoardState.Matrix[card.Value.Row, card.Value.Column].IsHidden;
+                isCardHidden = m_LastBoardState.Matrix[i_Card.Value.Row, i_Card.Value.Column].IsHidden;
             }
+
             return isCardHidden;
              
         }
-        private void PrintResultsOfTheGame()
+        private void printResultsOfTheGame()
         {
-            PlayerDTO[] players = m_memoryGame.GetPlayerDetails();
+            PlayerDTO[] players = m_MemoryGame.GetPlayerDetails();
+            string winnerName;
+            if(players[0].Score > players[1].Score)
+            {
+                
+            }
+            else if(players[1].Score > players[0].Score)
+            {
+
+          
+            {
+
+                    Console.WriteLine("And the winner is...");
+                    System.Threading.Thread.Sleep(2000);
+
+                    Console.WriteLine(winnerName + "!");
             Console.WriteLine(string.Format(@"{0}'s score: {1}", players[0].Name, players[0].Score));
-            if (players[1].IsHumen)
+            Console.WriteLine(string.Format(@"{0}'s score: {1}", players[0].Name, players[0].Score));
+            if (players[1].IsHuman)
             {
                 Console.WriteLine(string.Format(@"{0}'s score: {1}", players[1].Name, players[1].Score));
             }

@@ -1,54 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 
 namespace Ex02
 {
     internal class Player
     {
-        private readonly string r_name;
-        private int m_score;
-        private readonly bool r_isHumen;
+        private readonly string r_Name;
+        private int m_Score;
+        private readonly bool r_IsHuman;
 
-        public Player(string i_name, bool i_isHumen)
+        public Player(string i_Name, bool i_IsHuman)
         {
-            r_name = i_name;
-            r_isHumen = i_isHumen;
-            m_score = 0;
+            r_Name = i_Name;
+            r_IsHuman = i_IsHuman;
+            m_Score = 0;
         }
         public void InitiatePlayer()
         {
-            m_score = 0;
+            m_Score = 0;
         }
         public string Name
         {
             get
             {
-                return r_name;
+                return r_Name;
             }
         }
         public bool IsHumen
         {
             get
             {
-                return r_isHumen;
+                return r_IsHuman;
             }
         }
         public int Score
         {
             get
             {
-                return m_score;
+                return m_Score;
             }
             set
             {
-                m_score = value;
+                m_Score = value;
             }
         }
-        public PlayerDTO createPlayerDTO()
+        public PlayerDTO CreatePlayerDTO()
         {
-            return new PlayerDTO(r_name, m_score, r_isHumen);
+            return new PlayerDTO(r_Name, m_Score, r_IsHuman);
         }
     }
 }
