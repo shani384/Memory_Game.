@@ -211,7 +211,7 @@ namespace Ex02
             bool validInput = false;
             CoordinateInBoard? coordinateInBoard = null;
 
-            Console.WriteLine(string.Format(@"Please enter number of a row (1 - {0}):", m_LastBoardState.Matrix.GetLength(1)));
+            Console.WriteLine(string.Format(@"Please enter number of a row (1 - {0}):", m_LastBoardState.Matrix.GetLength(0)));
             while (!validInput)
             {
                 rowStr = Console.ReadLine();
@@ -235,7 +235,7 @@ namespace Ex02
             if (!m_PlayerWantToQuit)
             {
                 validInput = false;
-                Console.WriteLine(string.Format(@"Please enter number of a column (A - {0}):", (char)('A' + m_LastBoardState.Matrix.GetLength(0) - 1)));
+                Console.WriteLine(string.Format(@"Please enter number of a column (A - {0}):", (char)('A' + m_LastBoardState.Matrix.GetLength(1) - 1)));
                 while (!validInput)
                 {
                     columnStr = Console.ReadLine();
@@ -263,7 +263,7 @@ namespace Ex02
         }
         private bool isRowInputValid(string i_Row)
         {
-            return i_Row.Length != 1 || char.Parse(i_Row) < '1' || char.Parse(i_Row) > m_LastBoardState.Matrix.GetLength(1) + '0';
+            return i_Row.Length != 1 || char.Parse(i_Row) < '1' || char.Parse(i_Row) > m_LastBoardState.Matrix.GetLength(0) + '0';
         }
         private bool isColumnInputValid(string i_Column)
         {
@@ -293,18 +293,18 @@ namespace Ex02
             card1Choice = getPlayerCardChoice();
             if (!m_PlayerWantToQuit)
             {
-                while (!isCardHidden(card1Choice))
+                while (!isCardHidden(card1Choice) && !m_PlayerWantToQuit)
                 {
-                    Console.WriteLine("This i_Card is not hidden so you cannot choose it. Please select another i_Card.");
+                    Console.WriteLine("This Card is not hidden so you cannot choose it. Please select another Card.");
                     card1Choice = getPlayerCardChoice();
                 }
                 if (!m_PlayerWantToQuit)
                 {
                     showChosenCard(card1Choice, i_PlayerName);
                     card2Choice = getPlayerCardChoice();
-                    while (!isCardHidden(card2Choice))
+                    while (!isCardHidden(card2Choice) && !m_PlayerWantToQuit)
                     {
-                        Console.WriteLine("This i_Card is not hidden so you cannot choose it. Please select another i_Card.");
+                        Console.WriteLine("This Card is not hidden so you cannot choose it. Please select another Card.");
                         card2Choice = getPlayerCardChoice();
                     }
                     if (!m_PlayerWantToQuit)
@@ -313,9 +313,9 @@ namespace Ex02
                         System.Threading.Thread.Sleep(2000);
                         ConsoleUtils.Screen.Clear();
                         cardsConcat = concatCardsChoice(card1Choice, card2Choice);
+                        m_MemoryGame.RunCurrentTurn(cardsConcat);
                     }
                 }
-                m_MemoryGame.RunCurrentTurn(cardsConcat);
             }
         }
         private void notHumanPlayer()
