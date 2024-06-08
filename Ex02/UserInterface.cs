@@ -376,22 +376,18 @@ namespace Ex02
         private void printResultsOfTheGame()
         {
             PlayerDTO[] players = m_MemoryGame.GetPlayerDetails();
-            string winnerName;
-            if(players[0].Score > players[1].Score)
+            string winnerName = checkWhoIsTheWinner(players);
+
+            if (winnerName != null)
             {
-                
+                Console.WriteLine("And the winner is...");
+                System.Threading.Thread.Sleep(2000);
+                Console.WriteLine(winnerName + "!");
             }
-            else if(players[1].Score > players[0].Score)
+            else
             {
-
-          
-            {
-
-                    Console.WriteLine("And the winner is...");
-                    System.Threading.Thread.Sleep(2000);
-
-                    Console.WriteLine(winnerName + "!");
-            Console.WriteLine(string.Format(@"{0}'s score: {1}", players[0].Name, players[0].Score));
+                Console.WriteLine("The game ended in a draw");
+            }
             Console.WriteLine(string.Format(@"{0}'s score: {1}", players[0].Name, players[0].Score));
             if (players[1].IsHuman)
             {
@@ -401,6 +397,28 @@ namespace Ex02
             {
                 Console.WriteLine(string.Format(@"Computer's score: {0}", players[1].Score));
             }
+        }
+        private string checkWhoIsTheWinner(PlayerDTO[] i_players)
+        {
+            string winnerName = null;
+
+            if (i_players[0].Score > i_players[1].Score)
+            {
+                winnerName = i_players[0].Name;
+            }
+            else if (i_players[1].Score > i_players[0].Score)
+            {
+                if(!i_players[1].IsHuman)
+                {
+                    winnerName = "Computer";
+                }
+                else
+                {
+                    winnerName = i_players[1].Name;
+                }
+            }
+
+            return winnerName;
         }
     }
 }

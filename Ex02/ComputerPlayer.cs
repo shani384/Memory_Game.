@@ -58,16 +58,18 @@ namespace Ex02
         }
         private void takeOutUsedCardsFromMemory(Card i_Card1, Card i_Card2, CardCoordinate i_Coordinate1, CardCoordinate i_Coordinate2)
         {
-            CardCoordinate checkIfRevealedCoordinate;
+            //CardCoordinate checkIfRevealedCoordinate;
+            m_RevealedCards.Remove(i_Card1.Content);
+            m_ReadyCardsPairs.Remove(i_Card1.Content);
 
-            if (m_RevealedCards.TryGetValue(i_Card1.Content, out checkIfRevealedCoordinate) && isTheSameCard(i_Coordinate1, checkIfRevealedCoordinate))
-            {
-                m_RevealedCards.Remove(i_Card1.Content);
-            }
-            if (m_RevealedCards.TryGetValue(i_Card2.Content, out checkIfRevealedCoordinate) && isTheSameCard(i_Coordinate2, checkIfRevealedCoordinate))
-            {
-                m_RevealedCards.Remove(i_Card2.Content);
-            }
+            //if (m_RevealedCards.TryGetValue(i_Card1.Content, out checkIfRevealedCoordinate) && isTheSameCard(i_Coordinate1, checkIfRevealedCoordinate))
+            //{
+            //    m_RevealedCards.Remove(i_Card1.Content);
+            //}
+            //if (m_RevealedCards.TryGetValue(i_Card2.Content, out checkIfRevealedCoordinate) && isTheSameCard(i_Coordinate2, checkIfRevealedCoordinate))
+            //{
+            //    m_RevealedCards.Remove(i_Card2.Content);
+            //}
         }
         private void rememberOtherPlayerOpenCards(Card i_Card1, Card i_Card2, CardCoordinate i_Coordinate1, CardCoordinate i_Coordinate2)
         {
@@ -75,7 +77,7 @@ namespace Ex02
             CardCoordinate[] checkIfAllreadyFound = new CardCoordinate[2];
             CardCoordinate[] newPairOfEqualCards = new CardCoordinate[2];
 
-            if (!m_RevealedCards.TryGetValue(i_Card1.Content, out checkIfRevealedCoordinate))
+            if (!m_RevealedCards.TryGetValue(i_Card1.Content, out checkIfRevealedCoordinate) && !m_ReadyCardsPairs.TryGetValue(i_Card1.Content, out checkIfAllreadyFound))
             {
                 m_RevealedCards[i_Card1.Content] = i_Coordinate1;
             }
@@ -87,7 +89,7 @@ namespace Ex02
                 m_ReadyCardsPairs[i_Card1.Content] = newPairOfEqualCards;
             }
 
-            if (!m_RevealedCards.TryGetValue(i_Card2.Content, out checkIfRevealedCoordinate))
+            if (!m_RevealedCards.TryGetValue(i_Card2.Content, out checkIfRevealedCoordinate) && !m_ReadyCardsPairs.TryGetValue(i_Card2.Content, out checkIfAllreadyFound))
             {
                 m_RevealedCards[i_Card2.Content] = i_Coordinate2;
             }
